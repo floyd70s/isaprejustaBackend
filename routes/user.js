@@ -15,7 +15,7 @@ var md_upload=multipart({uploadDir:'./uploads/users'})
 
 api.get('/probando-controlador',UserController.pruebas)
 api.post('/saveUser',UserController.saveUser)
-api.post('/upload-Image-user/:id',[md_auth.ensureAuth,md_upload],UserController.uploadImage)
+api.post('/upload-Image-user/:id',[md_upload],UserController.uploadImage)
 api.get('/get-Image-user/:imageFile',UserController.getImageFile)
 api.post('/get-user-by-rut',UserController.getUserByRut) 
 api.get('/get-users',UserController.getUsers) 
