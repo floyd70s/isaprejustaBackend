@@ -118,6 +118,7 @@ function uploadImage(req, res) {
      console.log(req.files)
     
      if (req.files) {
+        console.log(JSON.stringify(req))
         var file_path = req.files.image.path
         var file_split= file_path.split('/')
         var file_name= file_split[2]
