@@ -118,18 +118,25 @@ function uploadImage(req, res) {
     console.log(req.files)
     try {
         if (req.files) {
-            console.log(JSON.stringify(req))
             var file_path = req.files.image.path
             var file_split = file_path.split('/')
             var file_name = file_split[2]
             var ext_file = file_name.split('.')
             var file_ext = ext_file[1]
+            
+            console.log('---------------------')
+            console.log(req)
+            console.log('userId: ' +userId )
+            console.log('file_name: ' +file_name )
+            console.log('---------------------')
+
+
 
             if (file_ext == 'jpg' || file_ext == 'gif' || file_ext == 'png' || file_ext == 'jpeg' || file_ext == 'doc' || file_ext == 'docx' || file_ext == 'pdf') {
                 User.findByIdAndUpdate(userId, { letter: file_name }, (err, userUpdated) => {
                     if (!userUpdated) {
-                        res.status(404).send({ message: 'No se ha podido actualizar la imagen' })
-                        console.log('404 No se ha podido actualizar la imagen')
+                        res.status(404).send({ message: 'No se ha podido actualizar la imagen'+ req.files })
+                        console.log('404 No se ha podido actualizar la imagen' )
                     } else {
                         res.status(200).send({ User: userUpdated })
                         console.log('200 -ok')
@@ -145,7 +152,7 @@ function uploadImage(req, res) {
 
         }
     } catch (error) {
-        res.status(500).send('Error en la peticion de:'+ JSON.stringify(req))
+        res.status(500).send('Erro'+ req)
     }
 }
 /**
