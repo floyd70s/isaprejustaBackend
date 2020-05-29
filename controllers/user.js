@@ -117,11 +117,17 @@ function uploadImage(req, res) {
     var file_name = 'No subido...'
     console.log(req.files)
     try {
+        console.log('1')
         if (req.files) {
+            console.log('2')
             var file_path = req.files.image.path
+            console.log('3')
             var file_split = file_path.split('/')
+            console.log('4')
             var file_name = file_split[2]
+            console.log('5')
             var ext_file = file_name.split('.')
+            console.log('6')
             var file_ext = ext_file[1]
             
             console.log('---------------------')
