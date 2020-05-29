@@ -119,7 +119,7 @@ function uploadImage(req, res) {
     try {
         console.log('1')
         if (req.files) {
-            console.log('2')
+            console.log('2 '+ req.files.image.path)
             var file_path = req.files.image.path
             console.log('3')
             var file_split = file_path.split('/')
