@@ -163,31 +163,46 @@ function uploadImage(req, res) {
     }
 }
 
-// function upImage(req, res) {
-//     var { fileName } = storeWithOriginalName(req.file)
-    
-//     User.findByIdAndUpdate(userId, { letter: fileName }, (err, userUpdated) => {
-//         if (!userUpdated) {
-//             res.status(404).send({ message: 'No se ha podido actualizar la imagen' + fileName })
-//             console.log('404 No se ha podido actualizar la imagen')
-//         } else {
-//             res.status(200).send({ User: userUpdated })
-//             console.log('200 -ok')
-//         }
-//     })
+async function upImage(req, res) {
+    if (req.file) {
+        // console.log(req.file);
+        var userId = req.params.id
+        var file_path = req.file.path;
+        // var file_split = file_path.split('\\');
+        var file_split = file_path.split('/');
+        var file_name = file_split[2];
+        var ext_split = req.file.originalname.split('\.');
+        var file_ext = ext_split[1]
+        
+        console.log('---------------------')
+        console.log('file_name: '+file_name)
+        console.log('file_split[0]: '+file_split[0])
+        console.log('file_split[1]: '+file_split[1])
+        console.log('file_split[2]: '+file_split[2])
+        console.log('req.file.path: '+req.file.path)
+        console.log('req.params.id: '+req.params.id)
+        console.log('file_ext: '+file_ext)
+        console.log('---------------------')
 
 
-
-// }
-
-// function storeWithOriginalName(file) {
-//     var fullNewPath = path.join(file.destination, file.originalname)
-//     fs.renameSync(file.path, fullNewPath)
-
-//     return {
-//         fileName: file.originalname
-//     }
-// }
+        if (file_ext == 'jpg' || file_ext == 'gif' || file_ext == 'png' || file_ext == 'jpeg' || file_ext == 'doc' || file_ext == 'docx' || file_ext == 'pdf'|| file_ext == 'png') {
+            User.findByIdAndUpdate(userId, { letter: file_name }, (err, userUpdated) => {
+                if (!userUpdated) {
+                    res.status(404).send({ message: 'No se ha podido actualizar la imagen' + req.files })
+                    console.log('404 No se ha podido actualizar la imagen')
+                } else {
+                    res.status(200).send({ User: userUpdated })
+                    console.log('200 -ok')
+                }
+            })
+        } else {
+            res.status(200).send({ message: 'Extension del archivo no valida' });
+        }
+        console.log(file_path);
+    } else {
+        res.status(200).send({ message: 'No has subido ninguna imagen..' });
+    }
+}
 
 
 
@@ -208,8 +223,7 @@ function getImageFile(req, res) {
     })
 }
 function getUsers(req, res) {
-    var rut = req.params.rut
-    console.log('busqueda de usuario por rut: ' + rut)
+    console.log('busqueda de usuarios')
 
     User.find({}, (err, user) => {
         if (err) {
@@ -297,6 +311,7 @@ module.exports = {
     saveUser,
     updateUser,
     uploadImage,
+    upImage,
     getImageFile,
     getUserByRut,
     getUsers,

@@ -2,16 +2,16 @@
 
 var express = require('express');
 var bodyParser=require('body-parser');
-var busboyBodyParser = require('busboy-body-parser');
 var app=express();
 
 
 //cargar rutas
 var user_routes= require('./routes/user')
 
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-app.use(busboyBodyParser());
+   
+
 
 //cabeceras http 
 app.use((req,res,next)=>{
@@ -27,6 +27,3 @@ app.use((req,res,next)=>{
 app.use('/api',user_routes);
 
 module.exports=app;
-
-
-
