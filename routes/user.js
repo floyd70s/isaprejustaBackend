@@ -13,13 +13,15 @@ var md_auth= require('../middlewares/authenticated')
 var multipart=require('connect-multiparty')
 var md_upload=multipart({uploadDir:'uploads/users'})
 
-// var multer = require('multer')({
-// dest: 'public/uploads' })
+ var multer = require('multer')
+ multer=({
+ dest: 'uploads/users' })
 
 
 api.get('/probando-controlador',UserController.pruebas)
 api.post('/saveUser',UserController.saveUser)
-api.post('/upload-Image-user/:id',[md_upload],UserController.uploadImage)
+// api.post('/upload-Image-user/:id',[md_upload],UserController.uploadImage)
+api.post('/upload-Image-user/:id',[multer.single('image')],UserController.upImage)
 api.get('/get-Image-user/:imageFile',UserController.getImageFile)
 api.post('/get-user-by-rut',UserController.getUserByRut) 
 api.get('/get-users',UserController.getUsers) 

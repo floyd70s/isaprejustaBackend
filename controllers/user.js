@@ -7,6 +7,9 @@ var jwt = require('../services/jwt')
 var nodemailer = require('nodemailer');
 const ejs = require('ejs');
 
+var path = require('path')
+var fs = require('fs')
+
 
 function pruebas(req, res) {
     res.status(200).send({
@@ -119,7 +122,7 @@ function uploadImage(req, res) {
     try {
         console.log('1')
         if (req.files) {
-            console.log('2 '+ req.files.image.path)
+            console.log('2 ' + req.files.image.path)
             var file_path = req.files.image.path
             console.log('3')
             var file_split = file_path.split('/')
@@ -129,20 +132,18 @@ function uploadImage(req, res) {
             var ext_file = file_name.split('.')
             console.log('6')
             var file_ext = ext_file[1]
-            
+
             console.log('---------------------')
             console.log(req)
-            console.log('userId: ' +userId )
-            console.log('file_name: ' +file_name )
+            console.log('userId: ' + userId)
+            console.log('file_name: ' + file_name)
             console.log('---------------------')
-
-
 
             if (file_ext == 'jpg' || file_ext == 'gif' || file_ext == 'png' || file_ext == 'jpeg' || file_ext == 'doc' || file_ext == 'docx' || file_ext == 'pdf') {
                 User.findByIdAndUpdate(userId, { letter: file_name }, (err, userUpdated) => {
                     if (!userUpdated) {
-                        res.status(404).send({ message: 'No se ha podido actualizar la imagen'+ req.files })
-                        console.log('404 No se ha podido actualizar la imagen' )
+                        res.status(404).send({ message: 'No se ha podido actualizar la imagen' + req.files })
+                        console.log('404 No se ha podido actualizar la imagen')
                     } else {
                         res.status(200).send({ User: userUpdated })
                         console.log('200 -ok')
@@ -158,9 +159,38 @@ function uploadImage(req, res) {
 
         }
     } catch (error) {
-        res.status(500).send('Erro'+ req)
+        res.status(500).send('Erro' + req)
     }
 }
+
+// function upImage(req, res) {
+//     var { fileName } = storeWithOriginalName(req.file)
+    
+//     User.findByIdAndUpdate(userId, { letter: fileName }, (err, userUpdated) => {
+//         if (!userUpdated) {
+//             res.status(404).send({ message: 'No se ha podido actualizar la imagen' + fileName })
+//             console.log('404 No se ha podido actualizar la imagen')
+//         } else {
+//             res.status(200).send({ User: userUpdated })
+//             console.log('200 -ok')
+//         }
+//     })
+
+
+
+// }
+
+// function storeWithOriginalName(file) {
+//     var fullNewPath = path.join(file.destination, file.originalname)
+//     fs.renameSync(file.path, fullNewPath)
+
+//     return {
+//         fileName: file.originalname
+//     }
+// }
+
+
+
 /**
  * @author Cperez
  * @param {*} req 
